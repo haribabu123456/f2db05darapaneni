@@ -60,3 +60,34 @@ exports.earbuds_delete = function(req, res) {
 exports.earbuds_update_put = function(req, res) { 
     res.send('NOT IMPLEMENTED: earbuds update PUT' + req.params.id); 
 }; 
+//for a specific earbuds.
+exports.earbuds_detail = async function(req, res) {
+ console.log("detail" + req.params.id)
+ try {
+ result = await earbuds.findById( req.params.id)
+ res.send(result)
+ } catch (error) {
+ res.status(500)
+ res.send(`{"error": document for id ${req.params.id} not found`);
+ }
+};
+//Handle earbuds update form on PUT.
+exports.earbuds_update_put = async function(req, res) {
+ console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+ try {
+ let toUpdate = await earbuds.findById( req.params.id)
+ // Do updates of properties
+ if(req.body.earbudsBrand)
+ toUpdate.earbudsBrand = req.body.earbudsBrand;
+ if(req.body.earbudsColor) toUpdate.earbudsColor = req.body.earbudsColor;
+ if(req.body.earbudsCost) toUpdate.earbudsCost = req.body.earbudsCost;
+ let result = await toUpdate.save();
+ console.log("Sucess " + result)
+ res.send(result)
+ } catch (err) {
+ res.status(500)
+ res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+ }
+};
