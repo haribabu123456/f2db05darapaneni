@@ -1,0 +1,46 @@
+extends layout
+block content
+ div(class="container-fluid p-5 bg-primary text-black text-center")
+  h2.text-center update earbuds
+ br
+ if (toShow == null)
+  h2 No instance to update
+ else
+  - let earbudsid = toShow._id
+  - let earbudsBrand = toShow.earbudsBrand
+  - let earbudsCost = toShow.earbudsCost
+  - let earbudsColor = toShow.earbudsColor
+ 
+   div.row(class='mb-2')
+    div.mr-1 ID is
+    div #{earbudsid}
+  - let actionid = "/resource/earbuds/" + earbudsid
+  form(id='earbudsForm', action= actionid, method="PUT")
+   div.form-group
+    label.earbudstyle(for='earbudsBrand') earbuds Brand
+    input#earbudsBrand(type='text', name='earbudsBrand', value= earbudsBrand )
+   div.form-group
+    label.earbudstyle(for='earbudsColor') earbudsColor
+    input#earbudsColor(type='text', name='earbudsColor', value= earbudsColor )
+   div.form-group
+    label.earbudstyle(for='earbudsCost') earbudsCost
+    input#earbudsCost(type='number', name='earbudsCost', value= earbudsCost )
+    br   
+    button(type="submit",class="btn btn-primary") update
+  script.
+   document.forms['earbudsForm'].addEventListener('submit', (event) => {
+    event.preventDefault();
+    // TODO do something here to show user that form is being submitted
+    fetch(event.target.action, {
+     method: 'PUT',
+     body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+    }).then((resp) => {
+     return resp.json(); // or resp.text() or whatever the server sends
+    }).then((body) => {
+     alert("Update succeded")
+    // TODO handle body
+    }).catch((error) => {
+    // TODO handle error
+     alert("Update failed " + error )
+    });
+   });

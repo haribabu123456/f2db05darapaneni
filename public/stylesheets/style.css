@@ -6,3 +6,13 @@ body {
 a {
   color: #00B7FF;
 }
+
+.costumeAttr {
+  background-color: aquamarine;
+  width: 120px;
+ }
+
+.earbudstyle{
+  background-color: rgb(239, 17, 17);
+  width: 200px;
+}
