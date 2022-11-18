@@ -3,11 +3,13 @@ extends layout
 block content
   h1= title
   - var result = results
-  div.container-fluid
-     div.row
+  div(class="container-fluid")
+     div(class="row m-1")
         each item,index in result
-            div.col-sm-2(onclick=`buy(${index})`) earbuds Brand: #{item["earbudsBrand"]}  <br>  earbuds Color: #{item["earbudsColor"]} <br> earbudsCost: #{item["earbudsCost"]} 
+            - let destination = `dispatch(\"/earbuds/update?id=${item._id}\")`
+            div(class="row-sm-2", class="m-1") Earbuds - #{item.earbudsBrand}(#{item.earbudsColor}) is #{item.earbudsCost}
+             button.btn( class="btn-primary ml-1", onclick= destination) Update
   script.
-      function buy(inx){
-         alert("you purchased item "+(inx+1))
+      function dispatch(path){
+         window.location.href=path
       }
